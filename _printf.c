@@ -1,90 +1,59 @@
-#include" main.h"
+#include "main.h"
+#include <stdio.h>
 
 /**
- * _printf - produces output acoording to a format
+ * _printf - Print formatted output to stdout.
+ * @format: A pointer to a format string.
  *
- * @format: character string
- *
- * Return: number of chars printed excluding the null byte
+ * Return: The number of characters printed.
  */
-
 int _printf(const char *format, ...)
 {
-	va_list args;
-	int i, count = 0;
+	int count = 0;
 
-	if (!format)
-		return (-1);
+        va_list args;
+        va_start(args, format);
 
-	va_start(args, format);
-
-	for (i = 0; format[i]; i++)
+	while (*format != '\0')
 	{
-		if (format[i] != '%')
+		if (*format == '%')
 		{
-			_putchar(format[i]);
-			count++;
-		}
-		else
-		{
-			i++;
-			if (format[i] == 'c')
-				count += handle_char(args);
-			else if (format[i] == 's')
-				count += handle_string(args);
-			else if (format[i] == '%')
+			format++;
+			if (*format == 'c')
 			{
-				_putchar('%');
+				int c = va_arg(args, int);
+				putchar(c);
+				count++;
+			}
+			else if (*format == 's')
+			{
+				char *s = va_arg(args, char *);
+				while (*s != '\0')
+				{
+					putchar(*s);
+					s++;
+					count++;
+				}
+			}
+			else if (*format == '%')
+			{
+				putchar('%');
 				count++;
 			}
 			else
 			{
-				_putchar('%');
-				_putchar(format[i]);
-				count += 2;
+				/* unsupported format specifier, ignore */
 			}
 		}
+		else
+		{
+			putchar(*format);
+			count++;
+		}
+		format++;
 	}
 
 	va_end(args);
-	return (count);
-}
 
-/**
- * handle_char - handles the %c format specifier
- *
- * @args: va_list of arguments
- *
- * Return: number of characters printed
- */
-int handle_char(va_list args)
-{
-	char c = va_arg(args, int);
-
-	_putchar(c);
-	return (1);
-}
-
-/**
- * handle_string - handles the %s format specifier
- * @args: va_list containing the string to print
- *
- * Return: number of characters printed
- */
-
-int handle_string(va_list args)
-{
-	char *s = va_arg(args, char *);
-	int i, cout = 0;
-
-	if (!s)
-		s = "(null)";
-
-	for (i = 0; s[i]; i++)
-	{
-		_putchar(s[i]);
-		count++;
-	}
-
-	return (count);
+	return count;
 }
