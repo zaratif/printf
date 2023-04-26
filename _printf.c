@@ -4,56 +4,34 @@
 /**
  * _printf - Print formatted output to stdout.
  * @format: A pointer to a format string.
+ * @...: optional arguments to be printed
  *
  * Return: The number of characters printed.
  */
 int _printf(const char *format, ...)
 {
-	int count = 0;
+	int count = 0, i;
+	va_list args;
 
-        va_list args;
-        va_start(args, format);
+	va_start(args, format);
 
-	while (*format != '\0')
+	if (!format || (format[0] == '%' && !format[1]))
+		return (-1);
+	if (format[0] == '%' && format[1] == ' ' && !format[2])
+		return (-1);
+	for (i = 0; format[i] != '\0'; i++)
 	{
-		if (*format == '%')
+		if (format[i] == '%')
 		{
-			format++;
-			if (*format == 'c')
-			{
-				int c = va_arg(args, int);
-				putchar(c);
-				count++;
-			}
-			else if (*format == 's')
-			{
-				char *s = va_arg(args, char *);
-				while (*s != '\0')
-				{
-					putchar(*s);
-					s++;
-					count++;
-				}
-			}
-			else if (*format == '%')
-			{
-				putchar('%');
-				count++;
-			}
-			else
-			{
-				/* unsupported format specifier, ignore */
-			}
+			handle_char(format[++i], args, &count);
 		}
 		else
 		{
-			putchar(*format);
+			write(1, &format[i], 1);
 			count++;
 		}
-		format++;
 	}
 
 	va_end(args);
-
-	return count;
+	return (count);
 }
