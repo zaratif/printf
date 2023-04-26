@@ -25,7 +25,7 @@ int _strlen(char *s)
  */
 void check_percent(int *count_char)
 {
-	putchar('%');
+	_putchar('%');
 	(*count_char) += 1;
 }
 
@@ -65,17 +65,17 @@ int int_to_str(int n)
 
 	if (n < 0)
 	{
-		i += putchar('-');
+		i += _putchar('-');
 		if (n == -2147483648)
 		{
-			i += putchar('2');
+			i += _putchar('2');
 			n %= 1000000000;
 		}
 
 		i += int_to_str(-n);
 	}
 	else if (n >= 0 && n <= 9)
-		i += putchar(n + '0');
+		i += _putchar(n + '0');
 	else
 	{
 		i += int_to_str(n / 10);

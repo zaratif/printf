@@ -12,7 +12,7 @@ void handle_char(char c, va_list args, int *count)
 	switch (c)
 	{
 		case 'c':
-			putchar(va_arg(args, int));
+			_putchar(va_arg(args, int));
 			(*count)++;
 			break;
 		case 's':
@@ -26,12 +26,12 @@ void handle_char(char c, va_list args, int *count)
 				break;
 			}
 		case '%':
-			putchar('%');
+			_putchar('%');
 			(*count)++;
 			break;
 		default:
-			putchar('%');
-			putchar(c);
+			_putchar('%');
+			_putchar(c);
 			*count += 2;
 			break;
 	}

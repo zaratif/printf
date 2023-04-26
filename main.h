@@ -7,7 +7,7 @@
 #define BUFF_SIZE 1024
 
 /* Function prototypes */
-int my_putchar(char c);
+int _putchar(char c);
 int _strlen(char *s);
 int num_len(int num);
 int int_to_str(int n);
