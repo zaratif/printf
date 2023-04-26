@@ -1,90 +1,37 @@
-#include" main.h"
+#include "main.h"
+#include <stdio.h>
 
 /**
- * _printf - produces output acoording to a format
+ * _printf - Print formatted output to stdout.
+ * @format: A pointer to a format string.
+ * @...: optional arguments to be printed
  *
- * @format: character string
- *
- * Return: number of chars printed excluding the null byte
+ * Return: The number of characters printed.
  */
-
 int _printf(const char *format, ...)
 {
+	int count = 0, i;
 	va_list args;
-	int i, count = 0;
-
-	if (!format)
-		return (-1);
 
 	va_start(args, format);
 
-	for (i = 0; format[i]; i++)
+	if (!format || (format[0] == '%' && !format[1]))
+		return (-1);
+	if (format[0] == '%' && format[1] == ' ' && !format[2])
+		return (-1);
+	for (i = 0; format[i] != '\0'; i++)
 	{
-		if (format[i] != '%')
+		if (format[i] == '%')
 		{
-			_putchar(format[i]);
-			count++;
+			handle_char(format[++i], args, &count);
 		}
 		else
 		{
-			i++;
-			if (format[i] == 'c')
-				count += handle_char(args);
-			else if (format[i] == 's')
-				count += handle_string(args);
-			else if (format[i] == '%')
-			{
-				_putchar('%');
-				count++;
-			}
-			else
-			{
-				_putchar('%');
-				_putchar(format[i]);
-				count += 2;
-			}
+			write(1, &format[i], 1);
+			count++;
 		}
 	}
 
 	va_end(args);
-	return (count);
-}
-
-/**
- * handle_char - handles the %c format specifier
- *
- * @args: va_list of arguments
- *
- * Return: number of characters printed
- */
-int handle_char(va_list args)
-{
-	char c = va_arg(args, int);
-
-	_putchar(c);
-	return (1);
-}
-
-/**
- * handle_string - handles the %s format specifier
- * @args: va_list containing the string to print
- *
- * Return: number of characters printed
- */
-
-int handle_string(va_list args)
-{
-	char *s = va_arg(args, char *);
-	int i, cout = 0;
-
-	if (!s)
-		s = "(null)";
-
-	for (i = 0; s[i]; i++)
-	{
-		_putchar(s[i]);
-		count++;
-	}
-
 	return (count);
 }
