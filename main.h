@@ -4,6 +4,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <string.h>
 
 #define BUFF_SIZE 1024
 
@@ -22,5 +23,4 @@ int number_to_binary(unsigned int num);
 void handle_hex(unsigned int num, char base, char *buffer);
 void handle_octal(unsigned int num, char *buffer);
 int number_to_hx_to_octal(unsigned int num, char base);
-
-#endif /* MAIN_H */
+#endif
