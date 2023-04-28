@@ -29,6 +29,10 @@ void handle_char(char c, va_list args, int *count)
 			_putchar('%');
 			(*count)++;
 			break;
+		case 'd':
+		case 'i':
+		*count += int_to_str(va_arg(args, unsigned int));
+		break;
 		default:
 			_putchar('%');
 			_putchar(c);
